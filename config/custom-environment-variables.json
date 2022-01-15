@@ -1,0 +1,6 @@
+{
+    "jwtPrivateKey": "quiz_jwtPrivateKey",
+    "db": {
+        "password": "quiz_mongoKey"
+    }
+}
