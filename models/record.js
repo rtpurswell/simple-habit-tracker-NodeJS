@@ -3,9 +3,8 @@ const Joi = require('joi')
 
 const recordSchema = new mongoose.Schema({
   _userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
-    ref: 'User',
   },
   _habitId: {
     type: mongoose.Schema.Types.ObjectId,

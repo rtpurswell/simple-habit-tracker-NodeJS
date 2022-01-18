@@ -34,9 +34,8 @@ const habitSchema = new mongoose.Schema({
     required: true,
   },
   _userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
-    ref: 'User',
   },
 })
 function validate(habit) {

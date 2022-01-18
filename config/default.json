@@ -7,10 +7,12 @@
         "username": "quiz_rpurswell",
         "password": "",
         "host" : "cluster0.wuob3.mongodb.net",
-        "name": "quiz",
-        "options": "retryWrites=true&w=majority"
+        "name": "fireHabit",
+        "logOptions": "retryWrites=true&w=majority",
+        "testingOptions": "retryWrites=true&w=majority",
+        "options": "authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority"
     },
-    "jwtPrivateKey":"",
+    "auth0ClientKey":"",
     "debug": {
         "httpLog":"true"
     },

@@ -1,6 +1,7 @@
 {
-    "jwtPrivateKey": "quiz_jwtPrivateKey",
     "db": {
-        "password": "quiz_mongoKey"
-    }
+        "password": "quiz_mongoKey",
+        "testingPassword":"jest_testing_pass"
+    },
+    "auth0ClientKey":"auth0ClientKey"
 }

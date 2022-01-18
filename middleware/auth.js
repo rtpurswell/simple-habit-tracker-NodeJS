@@ -1,20 +1,14 @@
-const jwt = require('jsonwebtoken')
-const config = require('config')
-const { ExpiredLogin } = require('../models/expiredLogin')
+const jwt = require('express-jwt')
+const jwks = require('jwks-rsa')
 
-module.exports = async function (req, res, next) {
-  const token = req.header('x-auth-token')
-  if (!token) return res.status(401).send('Access Denied. No token Provided')
-  try {
-    const decoded = jwt.verify(token, config.get('jwtPrivateKey'))
-    const login = await ExpiredLogin.findOne({
-      _userId: decoded._id,
-      createdAt: { $lt: decoded.created },
-    })
-    if (!login) return res.status(400).send('Token Invalidated')
-    req.user = decoded
-    next()
-  } catch (ex) {
-    res.status(401).send('Invalid Token')
-  }
-}
+module.exports = jwt({
+  secret: jwks.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: 'https://dev-5e2zuayl.us.auth0.com/.well-known/jwks.json',
+  }),
+  audience: 'http://localhost:3001',
+  issuer: 'https://dev-5e2zuayl.us.auth0.com/',
+  algorithms: ['RS256'],
+})

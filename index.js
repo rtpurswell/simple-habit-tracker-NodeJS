@@ -1,12 +1,6 @@
 require('express-async-errors')
 const express = require('express')
 const app = express()
-const config = require('config')
-
-if (!config.get('jwtPrivateKey')) {
-  console.log('FATAL ERROR: quiz_jwtPrivateKey environment variable is not set')
-  process.exit(1)
-}
 
 //Connect to DB
 require('./startup/db')()

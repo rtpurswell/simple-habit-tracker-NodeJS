@@ -16,32 +16,20 @@ router.get('/', auth, async (req, res) => {
   // const endDate = req.query.endDate || Date.now()
 
   // const records = await Record.find({
-  //   _userId: req.user._id,
+  //   _userId: req.user.sub,
   //   completedAt: { $gt: startDate, $lte: endDate },
   // })
   const records = await Record.find({
-    _userId: req.user._id,
+    _userId: req.user.sub,
   })
   res.send(records)
 })
 
 router.get('/:id', auth, validateObjectId, async (req, res) => {
-  if (req.params.all) {
-    const records = await Record.find({
-      _userId: req.user._id,
-      _habitId: req.params.id,
-    })
-  } else {
-    const startDate =
-      req.query.startDate ||
-      new Date(new Date().setDate(new Date().getDate() - 30)).getTime()
-    const endDate = req.query.endDate || Date.now()
-    const records = await Record.find({
-      _userId: req.user._id,
-      _habitId: req.params.id,
-      completedAt: { $gt: startDate, $lte: endDate },
-    })
-  }
+  const records = await Record.find({
+    _userId: req.user.sub,
+    _habitId: req.params.id,
+  })
 
   res.send(records)
 })
@@ -52,12 +40,12 @@ router.post('/', auth, async (req, res) => {
 
   const habit = await Habit.findOne({
     _id: req.body._habitId,
-    _userId: req.user._id,
+    _userId: req.user.sub,
   })
   if (!habit) return res.status(404).send('Habit not found')
 
   let record = new Record({
-    _userId: req.user._id,
+    _userId: req.user.sub,
     ..._.pick(req.body, ['_habitId', 'completedAt']),
   })
   record = await record.save()
@@ -66,7 +54,7 @@ router.post('/', auth, async (req, res) => {
 
 router.delete('/:id', auth, validateObjectId, async (req, res) => {
   const record = await Record.findOne({
-    _userId: req.user._id,
+    _userId: req.user.sub,
     _id: req.params.id,
   })
   if (!record) return res.status(404).send('Record not found')

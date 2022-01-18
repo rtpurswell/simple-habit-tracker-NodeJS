@@ -7,12 +7,12 @@ const validateObjectId = require('../middleware/validateObjectId')
 const { Record } = require('../models/record')
 
 router.get('/', auth, async (req, res) => {
-  const habits = await Habit.find({ _userId: req.user._id })
+  const habits = await Habit.find({ _userId: req.user.sub })
   res.send(habits)
 })
 router.get('/:id', auth, validateObjectId, async (req, res) => {
   const habit = await Habit.findOne({
-    _userId: req.user._id,
+    _userId: req.user.sub,
     _id: req.params.id,
   })
   if (!habit) return res.status(404).send('Habbit not found')
@@ -24,7 +24,7 @@ router.post('/', auth, async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message)
 
   let habit = new Habit({
-    _userId: req.user._id,
+    _userId: req.user.sub,
     name: req.body.name,
     color: req.body.color,
   })
@@ -36,7 +36,7 @@ router.put('/:id', auth, validateObjectId, async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message)
 
   const habit = await Habit.findOne({
-    _userId: req.user._id,
+    _userId: req.user.sub,
     _id: req.params.id,
   })
   if (!habit) return res.status(404).send('Habit not found')
@@ -48,12 +48,12 @@ router.put('/:id', auth, validateObjectId, async (req, res) => {
 })
 router.delete('/:id', auth, validateObjectId, async (req, res) => {
   const habit = await Habit.findOne({
-    _userId: req.user._id,
+    _userId: req.user.sub,
     _id: req.params.id,
   })
   if (!habit) return res.status(404).send('Habit not found')
   await habit.remove()
-  await Record.deleteMany({ _userId: req.user._id, _habitId: req.params.id })
+  await Record.deleteMany({ _userId: req.user.sub, _habitId: req.params.id })
   res.send(habit)
 })
 module.exports = router

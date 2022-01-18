@@ -4,13 +4,16 @@
     "sslEnabled": "false",
     "db": {
         "protocall": "mongodb+srv",
-        "username": "quiz_rpurswell",
+        "username": "testing",
         "password": "",
+        "testingPassword": "",
         "host" : "cluster0.wuob3.mongodb.net",
-        "name": "quiz",
-        "options": "retryWrites=true&w=majority"
+        "name": "testing",
+        "logOptions": "retryWrites=true&w=majority",
+        "testingOptions": "retryWrites=true&w=majority",
+        "options": "authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority"
     },
-    "jwtPrivateKey":"1234",
+    "auth0ClientKey":"",
     "debug": {
         "httpLog":"true"
     },
