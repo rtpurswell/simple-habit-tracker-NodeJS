@@ -5,25 +5,31 @@ const path = require('path')
 
 let connectionString
 let options
-if (process.env.NODE_ENV === 'test') {
-  options = null
-  connectionString = `${config.get('db.protocall')}://${config.get(
-    'db.username',
-  )}:${config.get('db.testingPassword')}@${config.get('db.host')}/${config.get(
-    'db.name',
-  )}?${config.get('db.logOptions')}`
-} else {
-  const cert = path.resolve('/etc/ssl/AtlasCert.pem')
+// if (process.env.NODE_ENV === 'test') {
+//   options = null
+//   connectionString = `${config.get('db.protocall')}://${config.get(
+//     'db.username',
+//   )}:${config.get('db.testingPassword')}@${config.get('db.host')}/${config.get(
+//     'db.name',
+//   )}?${config.get('db.logOptions')}`
+// } else {
+//   const cert = path.resolve('/etc/ssl/AtlasCert.pem')
 
-  connectionString = `${config.get('db.protocall')}://${config.get(
-    'db.host',
-  )}/${config.get('db.name')}?${config.get('db.options')}`
-  options = {
-    ssl: true,
-    sslCert: cert,
-    sslKey: cert,
-  }
-}
+//   connectionString = `${config.get('db.protocall')}://${config.get(
+//     'db.host',
+//   )}/${config.get('db.name')}?${config.get('db.options')}`
+//   options = {
+//     ssl: true,
+//     sslCert: cert,
+//     sslKey: cert,
+//   }
+// }
+options = null
+connectionString = `${config.get('db.protocall')}://${config.get(
+  'db.username',
+)}:${config.get('db.password')}@${config.get('db.host')}/${config.get(
+  'db.name',
+)}?${config.get('db.logOptions')}`
 module.exports = function () {
   mongoose
     .connect(connectionString, options)
