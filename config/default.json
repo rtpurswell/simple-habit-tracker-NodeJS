@@ -16,5 +16,5 @@
     "debug": {
         "httpLog":"true"
     },
-    "corsOrigin":["http://localhost:3000", "http://10.0.0.223:3000"]
+    "corsOrigin":["http://localhost:3000", "http://10.0.0.223:3000","https://habit.rpurswell.com"]
 }
